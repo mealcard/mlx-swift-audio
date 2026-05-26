@@ -6,6 +6,7 @@ import Foundation
 public enum STTProvider: String, CaseIterable, Identifiable, Sendable {
   case whisper
   case funASR
+  case mimo
 
   public var id: String { rawValue }
 
@@ -14,6 +15,7 @@ public enum STTProvider: String, CaseIterable, Identifiable, Sendable {
     switch self {
       case .whisper: "Whisper"
       case .funASR: "Fun-ASR"
+      case .mimo: "MiMo-V2.5-ASR"
     }
   }
 
@@ -24,6 +26,7 @@ public enum STTProvider: String, CaseIterable, Identifiable, Sendable {
     switch self {
       case .whisper: 16000
       case .funASR: 16000
+      case .mimo: 24000
     }
   }
 
@@ -34,6 +37,7 @@ public enum STTProvider: String, CaseIterable, Identifiable, Sendable {
     switch self {
       case .whisper: true
       case .funASR: true
+      case .mimo: true // .auto language path
     }
   }
 
@@ -42,6 +46,7 @@ public enum STTProvider: String, CaseIterable, Identifiable, Sendable {
     switch self {
       case .whisper: true
       case .funASR: true
+      case .mimo: false // transcription-only in v1
     }
   }
 
@@ -50,6 +55,7 @@ public enum STTProvider: String, CaseIterable, Identifiable, Sendable {
     switch self {
       case .whisper: false // Will be added in future phase
       case .funASR: false // LLM-based model doesn't produce word timestamps
+      case .mimo: false // LLM-based model doesn't produce word timestamps
     }
   }
 
@@ -58,6 +64,7 @@ public enum STTProvider: String, CaseIterable, Identifiable, Sendable {
     switch self {
       case .whisper: false // Will be added in future phase
       case .funASR: true // LLM-based model supports token streaming
+      case .mimo: false // not yet — Python reference is whole-clip only
     }
   }
 }

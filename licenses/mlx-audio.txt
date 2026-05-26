@@ -1,0 +1,15 @@
+The Python mlx-audio fork that established the MiMo-V2.5-ASR MLX inference
+path (mel pipeline, audio-encoder weight sanitization, prompt construction,
+generation loop, delay-pattern local decoder) is copyright © 2025 ailuntx
+and contributors, and licensed under the MIT License.
+
+The Swift port in package/Codec/MiMoAudioTokenizer/ and package/STT/MiMo/ is
+a direct translation of that work; per-file headers attribute both XiaomiMiMo
+(model architecture) and ailuntx (Python MLX reference).
+
+MIT License full text:
+
+    https://opensource.org/license/mit/
+
+Source repository:
+- https://github.com/ailuntx/mlx-audio (branch: feat/mimo-v25-asr)

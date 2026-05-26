@@ -130,7 +130,33 @@ let stream = try await funASR.transcribeStreaming(audioFileURL)
 for try await text in stream {
     print(text, terminator: "")
 }
+
+// MiMo-V2.5-ASR — Xiaomi multilingual ASR (zh/en/dialects/code-switch)
+let mimo = STT.mimo()
+try await mimo.load()
+
+// Auto language (recommended — works well on code-switched audio)
+let result = try await mimo.transcribe(audioFileURL)
+print(result.text)
+
+// Pin to a language for slightly faster decoding
+let zh = try await mimo.transcribe(audioFileURL, language: .chinese)
+let en = try await mimo.transcribe(audioFileURL, language: .english)
+
+// Skip HF download and load from a local directory (e.g. LM Studio's cache)
+let local = STT.mimo(localDirectory: URL(filePath:
+    "/Users/you/.lmstudio/models/mlx-community/MiMo-V2.5-ASR-MLX"))
+try await local.load()
 ```
+
+> **MiMo notes:** v1 ships with int4 affine quantization
+> (`group_size=64`) from `mlx-community/MiMo-V2.5-ASR-MLX`. The model
+> requires a paired audio tokenizer at `mlx-community/MiMo-Audio-Tokenizer`
+> — both are auto-downloaded on first `load()`. Single-utterance only in
+> v1 (`B == 1`); translation and streaming are out of scope. Test
+> coverage in `package/Tests/MimoParityTests.swift` includes per-stage
+> parity vs. the Python reference (mel cosine ≥ 0.9999, CER ≤ 5% on
+> Mandarin / English / code-switched clips).
 
 ## Building
 
